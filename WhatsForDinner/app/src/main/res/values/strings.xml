@@ -21,4 +21,11 @@
     <string name="recipe">Recipes</string>
     <string name="Groceries">Groceries</string>
     <string name="NewRecipes">New Dish</string>
+
+    <string name="NewRecipeName">New Recipe Name</string>
+    <string name="AddIngredient">Enter Ingredient Name</string>
+    <string name="Description">Description</string>
+
+    <string name="Error_DuplicateRecipe">Recipe Name Already Exists!</string>
+
 </resources>

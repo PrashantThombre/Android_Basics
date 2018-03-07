@@ -22,7 +22,8 @@
         <activity android:name=".MealsActivity" />
         <activity android:name=".RecipesActivity" />
         <activity android:name=".GroceriesActivity" />
-        <activity android:name=".NewDishActivity"/>
+        <activity android:name=".NewDishActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"/>
     </application>
 
 </manifest>
