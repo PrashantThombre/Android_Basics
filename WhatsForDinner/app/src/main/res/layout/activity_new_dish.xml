@@ -21,11 +21,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="30dp">
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="30dp">
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/iv_dish_icon"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:scaleType="fitCenter"
@@ -40,11 +40,12 @@
             android:id="@+id/imageButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
-
             android:layout_gravity="center_vertical"
             android:background="@null"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/new_recipe" />
+            app:srcCompat="@drawable/new_recipe"
+            android:onClick="enterNewFoodIcon"
+            />
     </LinearLayout>
 
     <ScrollView

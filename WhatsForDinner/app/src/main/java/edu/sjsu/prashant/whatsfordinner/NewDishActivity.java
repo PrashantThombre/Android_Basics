@@ -2,9 +2,13 @@ package edu.sjsu.prashant.whatsfordinner;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -17,7 +21,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +31,7 @@ import edu.sjsu.prashant.whatsfordinner.util.DishUtils;
 
 public class NewDishActivity extends AppCompatActivity {
     private static final String TAG = NewDishActivity.class.getSimpleName();
-
+    private static final Integer OPEN_GALLERY_ACTIVITY = 1001;
     static boolean isDuplicate = false;
     final static String new_dish_filename = "/new_dish_entry.dat";
     EditText et_newRecipeName;
@@ -34,15 +39,15 @@ public class NewDishActivity extends AppCompatActivity {
     ImageView iv_dishIcon;
     AutoCompleteTextView acTextView;
 
-    Integer [] ingredientIDs = {R.id.acTextView_ingredient01, R.id.acTextView_ingredient02, R.id.acTextView_ingredient03,
+    final Integer [] ingredientIDs = {R.id.acTextView_ingredient01, R.id.acTextView_ingredient02, R.id.acTextView_ingredient03,
             R.id.acTextView_ingredient04, R.id.acTextView_ingredient05, R.id.acTextView_ingredient06,
             R.id.acTextView_ingredient07, R.id.acTextView_ingredient08, R.id.acTextView_ingredient09,
             R.id.acTextView_ingredient10};
 
-    List<String> ingredientList = new ArrayList<String>();
-    List<String> completeRecipesList = new ArrayList<String>();
-    List<String> completeIngredientList = new ArrayList<String>();
-    List<NewDish> newDishList = new ArrayList<NewDish>();
+    List<String> ingredientList = new ArrayList<>();
+    List<String> completeRecipesList = new ArrayList<>();
+    List<String> completeIngredientList = new ArrayList<>();
+    List<NewDish> newDishList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +65,8 @@ public class NewDishActivity extends AppCompatActivity {
         }
         et_newRecipeName = findViewById(R.id.et_newRecipeName);
         et_newRecipeDescription = findViewById(R.id.et_newRecipeDescription);
-        ArrayAdapter<String> ingredientAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, completeIngredientList);
+        iv_dishIcon = findViewById(R.id.iv_dish_icon);
+        ArrayAdapter<String> ingredientAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, completeIngredientList);
         for(Integer idVal : ingredientIDs) {
             acTextView = findViewById(idVal);
             acTextView.setAdapter(ingredientAdapter);
@@ -151,5 +157,46 @@ public class NewDishActivity extends AppCompatActivity {
         }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void enterNewFoodIcon(View view){
+
+        //Using the ACTION_PICK action to have the user pick gallery
+        Intent intent = new Intent(Intent.ACTION_PICK);
+
+        //Getting the path to root of external storage
+        String directory = Environment.getExternalStorageDirectory().getPath();
+        Uri uri = Uri.parse(directory);
+
+        //Setting DataType to all the images
+        intent.setDataAndType(uri,"image/*");
+
+        //Start activity with a result code
+        startActivityForResult(intent,OPEN_GALLERY_ACTIVITY);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //Checking if everything went well on the startActivityForResult() call for gallery intent
+        if(requestCode == OPEN_GALLERY_ACTIVITY && resultCode == RESULT_OK){
+
+            //Get the URI of the image selected by the user
+            Uri selectedImageUri = data.getData();
+
+            InputStream inputStream;
+            try {
+                assert selectedImageUri != null;
+                inputStream = getContentResolver().openInputStream(selectedImageUri);
+
+                //Get the bitmap of selected image from the input stream and set it to the Food Icon ImageView
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                iv_dishIcon.setImageBitmap(bitmap);
+
+            } catch (FileNotFoundException e) {
+                Toast.makeText(this, "Unable to open the iamge", Toast.LENGTH_SHORT).show();
+            }
+            Log.i(TAG, selectedImageUri.getPath());
+        }
     }
 }

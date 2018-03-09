@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
         builder.setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-            //Do Nothing Special
             }
         });
 

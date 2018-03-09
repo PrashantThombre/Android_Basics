@@ -2,6 +2,7 @@
     <string name="app_name">WhatsForDinner</string>
 
     <string name="ok">OK</string>
+    <string name="save">SAVE</string>
 
     <string name="author">Author</string>
     <string name="author_value">Prashant Thombre</string>
