@@ -87,7 +87,7 @@
             <!--android:background="@drawable/ingredients_background"-->
             <!--&gt;-->
 
-            <LinearLayout
+            <TableLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
@@ -95,14 +95,29 @@
                 android:padding="30dp"
                 android:background="@drawable/ingredients_background"
                 android:orientation="vertical"
+                android:weightSum="3"
                 >
-
+<TableRow
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:weightSum="3">
                 <AutoCompleteTextView
                     android:id="@+id/acTextView_ingredient01"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/AddIngredient"
-                    android:text="" />
+                    android:text=""
+/>
+
+    <Spinner
+        android:id="@+id/sp_ingredient01"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content" />
+</TableRow>
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:weightSum="3">
 
                 <AutoCompleteTextView
                     android:id="@+id/acTextView_ingredient02"
@@ -110,6 +125,15 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/AddIngredient"
                     android:text="" />
+                <Spinner
+                    android:id="@+id/sp_ingredient02"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content" />
+            </TableRow>
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:weightSum="3">
 
                 <AutoCompleteTextView
                     android:id="@+id/acTextView_ingredient03"
@@ -117,6 +141,15 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/AddIngredient"
                     android:text="" />
+                    <Spinner
+                        android:id="@+id/sp_ingredient03"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content" />
+                </TableRow>
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:weightSum="3">
 
                 <AutoCompleteTextView
                     android:id="@+id/acTextView_ingredient04"
@@ -124,6 +157,15 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/AddIngredient"
                     android:text="" />
+                    <Spinner
+                        android:id="@+id/sp_ingredient04"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content" />
+                </TableRow>
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:weightSum="3">
 
                 <AutoCompleteTextView
                     android:id="@+id/acTextView_ingredient05"
@@ -131,6 +173,15 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/AddIngredient"
                     android:text="" />
+                    <Spinner
+                        android:id="@+id/sp_ingredient05"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content" />
+                </TableRow>
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:weightSum="3">
 
                 <AutoCompleteTextView
                     android:id="@+id/acTextView_ingredient06"
@@ -138,6 +189,15 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/AddIngredient"
                     android:text="" />
+                    <Spinner
+                        android:id="@+id/sp_ingredient06"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content" />
+                </TableRow>
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:weightSum="3">
 
                 <AutoCompleteTextView
                     android:id="@+id/acTextView_ingredient07"
@@ -145,6 +205,15 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/AddIngredient"
                     android:text="" />
+                    <Spinner
+                        android:id="@+id/sp_ingredient07"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content" />
+                </TableRow>
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:weightSum="3">
 
                 <AutoCompleteTextView
                     android:id="@+id/acTextView_ingredient08"
@@ -152,6 +221,15 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/AddIngredient"
                     android:text="" />
+                    <Spinner
+                        android:id="@+id/sp_ingredient08"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content" />
+                </TableRow>
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:weightSum="3">
 
                 <AutoCompleteTextView
                     android:id="@+id/acTextView_ingredient09"
@@ -159,6 +237,15 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/AddIngredient"
                     android:text="" />
+                    <Spinner
+                        android:id="@+id/sp_ingredient09"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content" />
+                </TableRow>
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:weightSum="3">
 
                 <AutoCompleteTextView
                     android:id="@+id/acTextView_ingredient10"
@@ -166,7 +253,13 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/AddIngredient"
                     android:text="" />
-            </LinearLayout>
+                    <Spinner
+                        android:id="@+id/sp_ingredient10"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content" />
+                </TableRow>
+
+            </TableLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
