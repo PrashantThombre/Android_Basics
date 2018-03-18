@@ -9,8 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
 
+import edu.sjsu.prashant.whatsfordinner.model.NewDish;
+import edu.sjsu.prashant.whatsfordinner.util.DishUtils;
+
+public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

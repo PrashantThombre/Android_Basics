@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import edu.sjsu.prashant.whatsfordinner.model.NewDish;
@@ -64,6 +65,56 @@ public class DishUtils {
             Log.d(TAG, "writeDishList: Completed serialization operation");
         } catch (Exception ex) {
             Log.e(TAG, "writeDishList: Error in serialization operation");
+            ex.printStackTrace();
+        }
+    }
+
+
+    public HashMap<String,Integer> readGroceriesMap(Context context, String file_name){
+        HashMap<String, Integer> groceriesMap = new HashMap<>();
+        FileInputStream ifile;
+        ObjectInputStream in;
+        try {
+            Log.i(TAG, "readGroceriesMap: Absolute File Name - "+ context.getFilesDir().getPath()+file_name);
+            Log.d(TAG, "readGroceriesMap: Starting deserialization operation");
+            ifile = new FileInputStream(context.getFilesDir().getPath()+file_name);
+            in = new ObjectInputStream(ifile);
+            groceriesMap =  (HashMap<String, Integer>) in.readObject();
+            in.close();
+            Log.d(TAG, "readGroceriesMap: Completed deserialization operation");
+        } catch (FileNotFoundException fnf_ex) {
+            Log.e(TAG, "readGroceriesMap: FileNotFoundException in deserialization operation");
+            fnf_ex.printStackTrace();
+        } catch (IOException io_ex){
+            Log.e(TAG, "readGroceriesMap: IOError in deserialization operation");
+            io_ex.printStackTrace();
+        } catch (ClassNotFoundException cnf_ex){
+            Log.e(TAG, "readGroceriesMap: ClassNotFoundException in deserialization operation");
+            cnf_ex.printStackTrace();
+        } catch (Exception ex){
+            Log.e(TAG, "readGroceriesMap: Exception in deserialization operation");
+            ex.printStackTrace();
+        }
+
+        for (String key : groceriesMap.keySet()) {
+            Log.d(TAG, groceriesMap.get(key) + " " + key.split("::")[1] + "-" + key.split("::")[0]);
+        }
+        return groceriesMap;
+    }
+
+    public void writeGroceriesMap(Context context, String file_name, HashMap<String, Integer> GroceriesMap){
+        FileOutputStream ofile;
+        ObjectOutputStream out;
+        try {
+            Log.i(TAG, "writeGroceriesMap: Absolute File Name - "+ context.getFilesDir().getPath()+file_name);
+            Log.d(TAG, "writeGroceriesMap: Starting serialization operation");
+            ofile = new FileOutputStream(context.getFilesDir().getPath() + file_name);
+            out = new ObjectOutputStream(ofile);
+            out.writeObject(GroceriesMap);
+            out.close();
+            Log.d(TAG, "writeGroceriesMap: Completed serialization operation");
+        } catch (Exception ex) {
+            Log.e(TAG, "writeGroceriesMap: Error in serialization operation");
             ex.printStackTrace();
         }
     }

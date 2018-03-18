@@ -29,4 +29,13 @@
 
     <string name="Error_DuplicateRecipe">Recipe Name Already Exists!</string>
 
+
+    <string-array name="quantity_array">
+        <item>Units</item>
+        <item>Pieces</item>
+        <item>Pounds</item>
+        <item>Gallons</item>
+    </string-array>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
