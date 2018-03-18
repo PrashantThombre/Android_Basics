@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,7 +16,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
@@ -27,7 +27,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -44,7 +43,7 @@ public class NewDishActivity extends AppCompatActivity {
     static boolean isDuplicate = false;
     private final static String new_dish_filename = "/new_dish_entry.dat";
     private final static String groceries_filename = "/groceries.dat";
-
+    String imageURIpath = "drawable://"+R.drawable.generic_food_icon;
     EditText et_newRecipeName;
     EditText et_newRecipeDescription;
     ImageView iv_dishIcon;
@@ -189,7 +188,7 @@ public class NewDishActivity extends AppCompatActivity {
                 }
 
                 //1. Serialize The Data
-                NewDish newDish = new NewDish(et_newRecipeName.getText().toString(), et_newRecipeDescription.getText().toString(), "", ingredientList);
+                NewDish newDish = new NewDish(et_newRecipeName.getText().toString(), et_newRecipeDescription.getText().toString(), imageURIpath, ingredientList);
                 newDishList.add(newDish);
                 DishUtils duObj = new DishUtils();
                 duObj.writeDishList(this, new_dish_filename, newDishList);
@@ -237,11 +236,16 @@ public class NewDishActivity extends AppCompatActivity {
 
             //Get the URI of the image selected by the user
             Uri selectedImageUri = data.getData();
-
+            if(selectedImageUri != null)
+                imageURIpath = selectedImageUri.toString();
+            Log.d(TAG, imageURIpath);
+            Log.d(TAG, selectedImageUri.toString());
             InputStream inputStream;
             try {
-                assert selectedImageUri != null;
-                inputStream = getContentResolver().openInputStream(selectedImageUri);
+                Log.d(TAG, Uri.parse(imageURIpath).toString());
+
+                inputStream = getContentResolver().openInputStream(Uri.parse(imageURIpath));
+                Log.d(TAG, (MediaStore.Images.Media.EXTERNAL_CONTENT_URI).toString());
 
                 //Get the bitmap of selected image from the input stream and set it to the Food Icon ImageView
                 Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
