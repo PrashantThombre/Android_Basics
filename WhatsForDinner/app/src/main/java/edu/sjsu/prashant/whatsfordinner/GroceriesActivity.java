@@ -29,7 +29,8 @@ public class GroceriesActivity extends AppCompatActivity {
     private static final String TAG = GroceriesActivity.class.getSimpleName();
 
     private static final String new_dish_filename = "/new_dish_entry.dat";
-    final static String groceries_filename = "/groceries.dat";
+//    final static String groceries_filename = "/groceries.dat";
+    private static final String new_groceries_filename = "/new_groceries.dat";
 
     private static final String SEPERATOR = "::";
 
@@ -51,7 +52,7 @@ public class GroceriesActivity extends AppCompatActivity {
 
 //        File file = new File(this.getFilesDir().getPath() + groceries_filename);
 //        if (file.exists() && !file.isDirectory()) {
-            listIngredientMap = duObj.readGroceriesMap(this, groceries_filename);
+            listIngredientMap = duObj.readGroceriesMap(this, new_groceries_filename);
 //        } else {
 //            newDishList = duObj.readDishList(this, new_dish_filename);
 //            for (NewDish dish : newDishList) {
@@ -140,7 +141,7 @@ public class GroceriesActivity extends AppCompatActivity {
                 String key = temp[1] + SEPERATOR + temp[0].split(" ")[1];
                 Integer value = Integer.valueOf(temp[0].split(" ")[0]);
                 groceriesMap.put(key, value);
-                duObj.writeGroceriesMap(this, groceries_filename, groceriesMap);
+                duObj.writeGroceriesMap(this, new_groceries_filename, groceriesMap);
             }
         }
 
