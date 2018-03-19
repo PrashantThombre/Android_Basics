@@ -10,6 +10,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -28,6 +29,7 @@ public class RecipesActivity extends AppCompatActivity implements ListFrag.Recip
 
     private final static String new_dish_filename = "/new_dish_entry.dat";
     private final static String new_groceries_filename = "/new_groceries.dat";
+    private static final String SEPERATOR = "::";
 
     List<NewDish> newDishList = new ArrayList<>();
     HashMap<String, Integer> listIngredientMap;
@@ -49,7 +51,7 @@ public class RecipesActivity extends AppCompatActivity implements ListFrag.Recip
         DishUtils duObj = new DishUtils();
         newDishList = duObj.readDishList(this, new_dish_filename);
 
-        if(findViewById(R.id.recipes_layout_default) != null){
+        if (findViewById(R.id.recipes_layout_default) != null) {
             FragmentManager fragmentManager = this.getSupportFragmentManager();
 
             fragmentManager.beginTransaction()
@@ -60,7 +62,7 @@ public class RecipesActivity extends AppCompatActivity implements ListFrag.Recip
             listIngredientMap = duObj.readGroceriesMap(this, new_groceries_filename);
         }
 
-        if(findViewById(R.id.recipes_layout_land) != null){
+        if (findViewById(R.id.recipes_layout_land) != null) {
             FragmentManager fragmentManager = this.getSupportFragmentManager();
 
             fragmentManager.beginTransaction()
@@ -78,16 +80,19 @@ public class RecipesActivity extends AppCompatActivity implements ListFrag.Recip
         ArrayList<List<String>> dish_ingredients = new ArrayList<>();
 
 
-
-
-        for(NewDish dish : newDishList){
+        for (NewDish dish : newDishList) {
             dish_name.add(dish.getDish_name());
             dish_descriptions.add(dish.getDish_description());
             dish_foodIcon.add(dish.getDish_image_path());
-            dish_ingredients.add(dish.getIngredient_list());
+            List<String> tempList = new ArrayList<>();
+            for(String ingredientName : dish.getIngredient_list()){
+                tempList.add(ingredientName.split(SEPERATOR)[0]);
+            }
+            dish_ingredients.add(tempList);
         }
 
-        if(findViewById(R.id.recipes_layout_default) != null){
+        if (findViewById(R.id.recipes_layout_default) != null) {
+// --> Show the recipe details onClick
 //            FragmentManager fragmentManager = this.getSupportFragmentManager();
 //            fragmentManager.beginTransaction()
 //                    .hide(fragmentManager.findFragmentById(R.id.listFrag))
@@ -95,13 +100,14 @@ public class RecipesActivity extends AppCompatActivity implements ListFrag.Recip
 //                    .addToBackStack(null)
 //                    .commit();
 
-                for(String ingredient : newDishList.get(index).getIngredient_list()){
-                    if (listIngredientMap.get(ingredient) != null) {
-                        listIngredientMap.put(ingredient, listIngredientMap.get(ingredient) + 1);
-                    } else {
-                        listIngredientMap.put(ingredient, 1);
-                    }
+
+            for (String ingredient : newDishList.get(index).getIngredient_list()) {
+                if (listIngredientMap.get(ingredient) != null) {
+                    listIngredientMap.put(ingredient, listIngredientMap.get(ingredient) + 1);
+                } else {
+                    listIngredientMap.put(ingredient, 1);
                 }
+            }
 
             DishUtils duObj = new DishUtils();
             duObj.writeGroceriesMap(this, new_groceries_filename, listIngredientMap);
@@ -113,14 +119,15 @@ public class RecipesActivity extends AppCompatActivity implements ListFrag.Recip
         String[] dish_name_array = new String[dish_name.size()];
         dish_name_array = dish_name.toArray(dish_name_array);
 
-        String[] dish_foodIcon_array = new String[dish_name.size()];
+        String[] dish_foodIcon_array = new String[dish_foodIcon.size()];
         dish_foodIcon_array = dish_foodIcon.toArray(dish_foodIcon_array);
 
-//        List<String>[] dish_ingredients_array = (List<String>[]) dish_ingredients.toArray();
+//        List<String>[] dish_ingredients_array = new List[dish_ingredients.size()];
+//        dish_ingredients_array =  dish_ingredients.toArray(dish_ingredients_array);
 
         tv_recipeName.setText(dish_name_array[index]);
         tv_recipeDescription.setText(dish_descriptions_array[index]);
-        Toast.makeText(this, dish_foodIcon_array[index],Toast.LENGTH_LONG).show();
+        Toast.makeText(this, dish_foodIcon_array[index], Toast.LENGTH_LONG).show();
         try {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) {
@@ -129,17 +136,17 @@ public class RecipesActivity extends AppCompatActivity implements ListFrag.Recip
                         new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                         5551);
             } else {
-                if(!dish_foodIcon_array[index].contains("drawable:")) {
+                if (!dish_foodIcon_array[index].contains("drawable:")) {
                     iv_foodIcon.setImageBitmap(BitmapFactory.decodeStream(getContentResolver().openInputStream(Uri.parse(dish_foodIcon_array[index]))));
-                }
-                else{
-                    Toast.makeText(this,Integer.valueOf(dish_foodIcon_array[index].split("://")[1]), Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(this, Integer.valueOf(dish_foodIcon_array[index].split("://")[1]), Toast.LENGTH_LONG).show();
                     iv_foodIcon.setImageDrawable(getResources().getDrawable(Integer.valueOf(dish_foodIcon_array[index].split("://")[1])));
                 }
             }
-        }catch(FileNotFoundException ex){
-                Log.d(TAG, "File Not Found!");
-            }
+        } catch (FileNotFoundException ex) {
+            Log.d(TAG, "File Not Found!");
+        }
 
+        lv_ingredientList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,dish_ingredients.get(index)));
     }
 }
