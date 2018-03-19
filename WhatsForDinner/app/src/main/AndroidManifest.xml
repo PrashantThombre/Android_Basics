@@ -19,11 +19,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".AppInfoPopup" />
-        <activity android:name=".MealsActivity" />
+        <activity android:name=".MealsActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".RecipesActivity" />
-        <activity android:name=".GroceriesActivity" />
+        <activity android:name=".GroceriesActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".NewDishActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"/>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

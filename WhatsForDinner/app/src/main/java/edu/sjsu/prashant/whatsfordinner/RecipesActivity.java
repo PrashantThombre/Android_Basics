@@ -29,10 +29,13 @@ public class RecipesActivity extends AppCompatActivity implements ListFrag.Recip
 
     private final static String new_dish_filename = "/new_dish_entry.dat";
     private final static String new_groceries_filename = "/new_groceries.dat";
+    private final static String meals_filename = "/meals.dat";
+
     private static final String SEPERATOR = "::";
 
     List<NewDish> newDishList = new ArrayList<>();
     HashMap<String, Integer> listIngredientMap;
+    HashMap<String, Integer> mealsMap;
 
     TextView tv_recipeName;
     ListView lv_ingredientList;
@@ -60,6 +63,7 @@ public class RecipesActivity extends AppCompatActivity implements ListFrag.Recip
                     .commit();
 
             listIngredientMap = duObj.readGroceriesMap(this, new_groceries_filename);
+            mealsMap = duObj.readMealsMap(this, meals_filename);
         }
 
         if (findViewById(R.id.recipes_layout_land) != null) {
@@ -112,6 +116,14 @@ public class RecipesActivity extends AppCompatActivity implements ListFrag.Recip
             DishUtils duObj = new DishUtils();
             duObj.writeGroceriesMap(this, new_groceries_filename, listIngredientMap);
 
+
+            if (mealsMap.get(newDishList.get(index).getDish_name()) != null) {
+                mealsMap.put(newDishList.get(index).getDish_name(), mealsMap.get(newDishList.get(index).getDish_name()) + 1);
+            } else {
+                mealsMap.put(newDishList.get(index).getDish_name(), 1);
+            }
+
+            duObj.writeMealsMap(this, meals_filename, mealsMap);
         }
         String[] dish_descriptions_array = new String[dish_descriptions.size()];
         dish_descriptions_array = dish_descriptions.toArray(dish_descriptions_array);

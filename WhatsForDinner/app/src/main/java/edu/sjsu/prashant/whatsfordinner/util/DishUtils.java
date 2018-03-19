@@ -118,4 +118,51 @@ public class DishUtils {
             ex.printStackTrace();
         }
     }
+
+    public HashMap<String,Integer> readMealsMap(Context context, String file_name){
+        HashMap<String, Integer> mealsMap = new HashMap<>();
+        FileInputStream ifile;
+        ObjectInputStream in;
+        try {
+            Log.i(TAG, "readMealsMap: Absolute File Name - "+ context.getFilesDir().getPath()+file_name);
+            Log.d(TAG, "readMealsMap: Starting deserialization operation");
+            ifile = new FileInputStream(context.getFilesDir().getPath()+file_name);
+            in = new ObjectInputStream(ifile);
+            mealsMap =  (HashMap<String, Integer>) in.readObject();
+            in.close();
+            Log.d(TAG, "readMealsMap: Completed deserialization operation");
+        } catch (FileNotFoundException fnf_ex) {
+            Log.e(TAG, "readMealsMap: FileNotFoundException in deserialization operation");
+            fnf_ex.printStackTrace();
+        } catch (IOException io_ex){
+            Log.e(TAG, "readMealsMap: IOError in deserialization operation");
+            io_ex.printStackTrace();
+        } catch (ClassNotFoundException cnf_ex){
+            Log.e(TAG, "readMealsMap: ClassNotFoundException in deserialization operation");
+            cnf_ex.printStackTrace();
+        } catch (Exception ex){
+            Log.e(TAG, "readMealsMap: Exception in deserialization operation");
+            ex.printStackTrace();
+        }
+
+        return mealsMap;
+    }
+
+    public void writeMealsMap(Context context, String file_name, HashMap<String, Integer> mealsMap){
+        FileOutputStream ofile;
+        ObjectOutputStream out;
+        try {
+            Log.i(TAG, "writeMealsMap: Absolute File Name - "+ context.getFilesDir().getPath()+file_name);
+            Log.d(TAG, "writeMealsMap: Starting serialization operation");
+            ofile = new FileOutputStream(context.getFilesDir().getPath() + file_name);
+            out = new ObjectOutputStream(ofile);
+            out.writeObject(mealsMap);
+            out.close();
+            Log.d(TAG, "writeMealsMap: Completed serialization operation");
+        } catch (Exception ex) {
+            Log.e(TAG, "writeMealsMap: Error in serialization operation");
+            ex.printStackTrace();
+        }
+    }
+
 }
